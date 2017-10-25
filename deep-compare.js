@@ -1,4 +1,4 @@
-var dc = (function () {
+var dc = (() => {
 
     var constant = {
         "NULL":"null",
