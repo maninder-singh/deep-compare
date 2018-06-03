@@ -20,16 +20,16 @@ In order to compare objects following list of values are allow
 
 ```
 
-1. dc.compare(null,null);
-2. dc.compare("a","a");
-3. dc.compare("a","ab");
-4. dc.compare("a",undefined);
-5. dc.compare(undefined,undefined);
-6. dc.compare({},[]);
-7. dc.compare({a:1},{});
-8. dc.compare({a:1},{a:1});
-9. dc.compare(true,true);
-10. dc.compare(true,false);
+1. dc(null,null);
+2. dc("a","a");
+3. dc("a","ab");
+4. dc("a",undefined);
+5. dc(undefined,undefined);
+6. dc({},[]);
+7. dc({a:1},{});
+8. dc({a:1},{a:1});
+9. dc(true,true);
+10. dc(true,false);
 
 ```
 

@@ -1,6 +1,6 @@
-var dc = (() => {
+let dc = (() => {
 
-    var constant = {
+    const constant = {
         "NULL":"null",
         "UNDEFINED":"undefined",
         "ARRAY":"array",
@@ -10,12 +10,12 @@ var dc = (() => {
         "BOOLEAN":"boolean"
     };
 
-    var deepCompare = (first, second) => {
+    let deepCompare = (first, second) => {
         return compareValues(first,second);
-    }
+    };
 
-    var compareInstance = (first, second) => {
-        var instanceInfo = {
+    let compareInstance = (first, second) => {
+        let instanceInfo = {
             "type":"",
             "isEqual":false
         };
@@ -29,14 +29,17 @@ var dc = (() => {
         }else if(first && second && first.constructor ===  second.constructor){
             instanceInfo.type = getInstance(first);
             instanceInfo.isEqual = true;
-        }else{
-            instanceInfo.type = "";
-            instanceInfo.isEqual = false;
+        }else if(first === "" && second === ""){
+            instanceInfo.type = constant.STRING;
+            instanceInfo.isEqual = true;
+        }else if(first === 0 && second === 0){
+            instanceInfo.type = constant.NUMBER;
+            instanceInfo.isEqual = true;
         }
         return instanceInfo;
-    }
+    };
 
-    var getInstance = obj => {
+    let getInstance = obj => {
 
         if(obj === null){
             return constant.NULL;
@@ -54,29 +57,29 @@ var dc = (() => {
             return constant.BOOLEAN;
         }
         return constant.NULL;
-    }
+    };
 
-    var compareArray = (first,second) => {
+    let compareArray = (first,second) => {
         if(first.length !== second.length){
             return false;
         }
 
-        for(var index = 0; index < first.length ; index++){
+        for(let index = 0; index < first.length ; index++){
             if(!compareValues(first[index],second[index])){
                 return false;
             }
         }
         return true;
-    }
+    };
 
-    var compareObject = (first, second) => {
-        var keys = Object.keys(first);
+    let compareObject = (first, second) => {
+        let keys = Object.keys(first);
 
         if(keys.length !== Object.keys(second).length){
             return false;
         }
 
-        for(var index = 0; index < keys.length ; index++){
+        for(let index = 0; index < keys.length ; index++){
             if(!second.hasOwnProperty(keys[index])){
                 return false;
             }
@@ -86,11 +89,11 @@ var dc = (() => {
             }
         }
         return true;
-    }
+    };
 
-    var compareValues = (first, second) => {
+    let compareValues = (first, second) => {
 
-        var instanceInfo = compareInstance(first,second);
+        let instanceInfo = compareInstance(first,second);
         if(!instanceInfo.isEqual){
             return false;
         }
@@ -99,27 +102,19 @@ var dc = (() => {
             case constant.NULL:
             case constant.UNDEFINED:
                 return true;
-                break;
             case constant.STRING:
                 return first.localeCompare(second) === 0;
-                break;
             case constant.NUMBER:
             case constant.BOOLEAN:    
                 return first === second;
-                break;
             case constant.ARRAY:
                 return compareArray(first,second);
-                break;
             case constant.OBJECT:
                 return compareObject(first,second);
-                break;
             default:
                 return false;
         }
-    }
+    };
 
-    return {
-        compare: deepCompare
-    }
-
+    return deepCompare;
 })();
